@@ -6,10 +6,5 @@
 - DELETE /user/:id Delete User  
 - PATCH /user/me Modify User
 - POST /user Create User
-- GET /user/:id/image User profile image
-
-##TODO
 - GET /users?page=number&pageSize=number
-- Socket connection
-- Socket send message
-- Socket receive message
+

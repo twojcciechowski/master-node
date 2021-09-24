@@ -1,0 +1,8 @@
+node_modules
+dist
+.tmp
+.sass-cache
+Gemfile.lock
+.idea
+.DS_Store
+node-js.iml

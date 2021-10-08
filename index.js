@@ -154,16 +154,19 @@ app.delete('/user/:id', authenticateToken, async (req, res) => {
 // MODIFY USER
 app.patch('/user/me', authenticateToken, async (req, res) => {
     const authHeader = req.headers['authorization'];
+    const { body } = req;
     const token = authHeader && authHeader.split(' ')[1];
     if (token) {
-        const username = getUserFromToken(token);
-        if (username) {
+        const userToken = getUserFromToken(token);
+        if (userToken) {
             await connectDB(async (client) => {
                 try {
-                    const user = await client.db("master").collection("users").findOne({"email": username});
-                    console.log(user);
+                    const { id } = userToken;
+                    const user = await client.db("master").collection("users").findOne({"login.uuid": id});
+                    await client.db("master").collection("users").updateOne({"login.uuid": id}, { $set: { login: { ...user.login, username: body.username } } });
                     res.sendStatus(200);
                 } catch (e) {
+                    console.log(e);
                     res.status(404).send(e);
                 }
             });
